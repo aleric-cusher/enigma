@@ -137,6 +137,3 @@ class Enigma():
 		if return_rotors:
 			return (self.handle(decrypted),rot)
 		return self.handle(decrypted)
-
-
-
