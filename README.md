@@ -1,5 +1,5 @@
 # enigma
-This an Enigma Machine emulator created using Python\n
+This an Enigma Machine emulator created using Python
 Please Note this is not a gui emulator rather a commandline tool
 
 A simple example:
