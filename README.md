@@ -16,7 +16,7 @@ print(Encrypted_message)
 
 Your_machine = Enigma()
 
-Decrypted_message = Your_machine(Encrypted_message)
+Decrypted_message = Your_machine.decrypt_str(Encrypted_message)
 
 print(Decrypted_message)
 
