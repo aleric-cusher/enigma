@@ -4,7 +4,7 @@ class Enigma():
 
 	Plugboard = rotors.plugboard
 
-	def __init__(self,rotor="I V II", reflector='C', plugs='',window="A A A",model='enigma1'):
+	def __init__(self,rotor="I V II", reflector='C', plugs='',window="Y K D",model='enigma1'):
 		self.set_rotors(rotor,reflector,model)
 		self.set_windows(window)
 		self.plug(plugs)
@@ -58,6 +58,8 @@ class Enigma():
 		if not (reflector in eval(f'rotors.{model}().rotors')):
 			raise Exception("Invalid Reflector")
 		sets = sets.split(" ")
+		if len(sets) > 3:
+			raise TypeError
 		for i in sets:
 			ind = sets.index(i)
 			sets[ind] = eval(f"rotors.{model}.{i}")
@@ -69,11 +71,14 @@ class Enigma():
 	def set_windows(self, win):
 		if isinstance(win, str):
 			self.WindowL, self.WindowM, self.WindowR = [ord(x)-65 for x in win.split(" ")]
-		else: 
+		else:
+			for i in win:
+				if i > 26:
+					raise TypeError 
 			self.WindowL, self.WindowM, self.WindowR = [x-1 for x in win]
 
-	def show_windows(self, strin=False):
-		if strin:
+	def show_windows(self, arg=False):
+		if arg:
 			return f'{chr(self.WindowL+65)} {chr(self.WindowM+65)} {chr(self.WindowR+65)}'
 		else:
 			return [self.WindowL+1, self.WindowM+1, self.WindowR+1]
@@ -110,7 +115,7 @@ class Enigma():
 		dec = self.sequence(key)
 		return (chr(dec+65))
 
-	def encrypt_str(self, message, return_rotors=False,in_str=False):
+	def encrypt_str(self, message):
 		message = self.handle(message,True)
 		encrypted = []
 		for enc in message:
@@ -118,13 +123,9 @@ class Enigma():
 				encrypted.append(self.encrypt(enc))
 			else:
 				encrypted.append("~")
-			if return_rotors:
-				rot.append(self.show_windows(in_str))
-		if return_rotors:
-			return (self.handle(encrypted),rot)
 		return self.handle(encrypted)
 
-	def decrypt_str(self, message, return_rotors=False,in_str=False):
+	def decrypt_str(self, message):
 		message = self.handle(message,True)
 		decrypted = []
 		for enc in message:
@@ -132,8 +133,4 @@ class Enigma():
 				decrypted.append(self.decrypt(enc))
 			else:
 				decrypted.append("~")
-			if return_rotors:
-				rot.append(self.show_windows(in_str))
-		if return_rotors:
-			return (self.handle(decrypted),rot)
 		return self.handle(decrypted)
