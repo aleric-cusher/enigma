@@ -41,8 +41,8 @@ eg:
 *'B'*
 
 The third argument is the model to be used: currently only enigma1 is supported
-Enigma1 has 5 total rotors out of which 3 can be selected: **I II III IV V**
-And it has 3 reflectors out of which 1 can be selected: **A B C**
+Enigma1 has 5 total rotors out of which 3 can be selected: **I, II, III, IV, V**
+And it has 3 reflectors out of which 1 can be selected: **A, B, C**
 
 #### ```.set_windows(win)```
 This takes in an argument win which can either be a string containing 3 letters seperated by a single space or it can be a list of any 3 numbers from 1 to 26
