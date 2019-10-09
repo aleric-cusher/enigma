@@ -20,7 +20,9 @@ print(Decrypted_message)
 '''
 ### Functions
 
-# '''.plug(plug)'''
+# '''
+.plug(plug)
+'''
 This method takes input as a string.
 The string should be in pairs seperated by a space and none of the letters should be repeated(cannot put 2 plugs in the same spot)
 eg:
