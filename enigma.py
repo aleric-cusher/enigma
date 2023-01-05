@@ -4,29 +4,24 @@ class Enigma():
 
 	Plugboard = rotors.plugboard
 
-	def __init__(self,rotor="I V II", reflector='C', plugs='',window="Y K D",model='enigma1'):
+	def __init__(self, rotor="I V II", reflector='C', plugs='',window="Y K D",model='enigma1'):
 		self.set_rotors(rotor,reflector,model)
 		self.set_windows(window)
 		self.plug(plugs)
+		self.excludes = ['\n', ' ', '.', ',', '!']
 
 	def handle(self, inp_string, IN=False):
 		if IN:
 			inp_string = inp_string.upper()
 			out = []
 			for letter in inp_string:
-				if letter != " ":
-					out.append(ord(letter)-65)
+				if letter in self.excludes:
+					out.append(letter)
 				else:
-					out.append("~")
+					out.append(ord(letter)-65)
 			return out
 		else:
-			out = []
-			for each in inp_string:
-				if each != "~":
-					out.append(each)
-				else:
-					out.append(" ")
-			out = ''.join(out)
+			out = ''.join(inp_string)
 			return out
 
 	def plug(self, plugs):
@@ -98,20 +93,10 @@ class Enigma():
 		return self.Plugboard[f]
 
 	def encrypt(self, key):
-		if isinstance(key, str):
-			if len(key) != 1:
-				raise Exception
-			key = key.upper()
-			key = ord(key)-65
 		enc = self.sequence(key)
 		return (chr(enc+65))
 
 	def decrypt(self, key):
-		if isinstance(key, str):
-			if len(key) != 1:
-				raise Exception
-			key = key.upper()
-			key = ord(key)-65
 		dec = self.sequence(key)
 		return (chr(dec+65))
 
@@ -119,18 +104,18 @@ class Enigma():
 		message = self.handle(message,True)
 		encrypted = []
 		for enc in message:
-			if enc != "~":
-				encrypted.append(self.encrypt(enc))
+			if enc in self.excludes:
+				encrypted.append(enc)
 			else:
-				encrypted.append("~")
+				encrypted.append(self.encrypt(enc))
 		return self.handle(encrypted)
 
 	def decrypt_str(self, message):
 		message = self.handle(message,True)
 		decrypted = []
 		for enc in message:
-			if enc != "~":
-				decrypted.append(self.decrypt(enc))
+			if enc in self.excludes:
+				decrypted.append(enc)
 			else:
-				decrypted.append("~")
+				decrypted.append(self.decrypt(enc))
 		return self.handle(decrypted)
